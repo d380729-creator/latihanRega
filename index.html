@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk Akun</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+
+        .form-login {
+            max-width: 330px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+    <form class="form-login">
+        <h3 class="fw-normal text-center mb-2">MASUK AKUN</h3>
+        <div class="form-floating mb-2">
+            <input
+                type="email"
+                class="form-control"
+                placeholder="E-mail"
+                required>
+            <label for="email">E-mail</label>
+        </div>
+        <div class="form-floating mb-2">
+            <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                required>
+            <label for="password">Password</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mb-2">
+            Masuk
+        </button>
+
+        <p> Tidak punya akun? <a href="daftar.html">Daftar</a></p>
+    </form>
+    </div>
+</body>
+</html>
