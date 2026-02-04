@@ -1,20 +1,35 @@
 <?php
 session_start();
 
-// akun contoh (tanpa database)
-$email_benar = "regha@example.com";
-$password_benar = "12345";
+// Koneksi database
+$host="localhost"; $user="root"; $pass=""; $db="latihan_login";
+$koneksi=mysqli_connect($host,$user,$pass,$db);
+if(!$koneksi) die("Koneksi gagal: ".mysqli_connect_error());
 
-// ambil dari form
-$email = $_POST['email'];
-$password = $_POST['password'];
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    $email=mysqli_real_escape_string($koneksi,$_POST['email']);
+    $password=mysqli_real_escape_string($koneksi,$_POST['password']);
 
-if ($email === $email_benar && $password === $password_benar) {
-    $_SESSION['login'] = true;
-    $_SESSION['email'] = $email;
+    // Admin hardcode
+    if($email=="admin@example.com" && $password=="admin123"){
+        $_SESSION['email']=$email;
+        $_SESSION['role']="admin";
+        header("Location: dashboard_admin.php");
+        exit;
+    }
 
-    header("Location: dashboard.php");
-    exit;
-} else {
-    echo "Login gagal! <a href='index.php'>Kembali</a>";
+    // User database
+    $query="SELECT * FROM users WHERE email='$email' AND password='$password'";
+    $result=mysqli_query($koneksi,$query);
+    if(mysqli_num_rows($result)==1){
+        $data=mysqli_fetch_assoc($result);
+        $_SESSION['email']=$data['email'];
+        $_SESSION['role']="user";
+        header("Location: dashboard_user.php");
+        exit;
+    } else {
+        echo "<script>alert('Email atau password salah'); window.location='index.php';</script>";
+        exit;
+    }
 }
+?>

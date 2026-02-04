@@ -42,9 +42,9 @@
             <label for="password">Password</label>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 mb-2">
+        <a href="dashboard.html" class="btn btn-primary w-100 mb-2">
             Masuk
-        </button>
+        </a>
 
         <p> Tidak punya akun? <a href="daftar.html">Daftar</a></p>
     </form>
