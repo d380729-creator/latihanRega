@@ -23,11 +23,12 @@
 </head>
 <body>
     <div class="container-fluid">
-    <form class="form-login">
+    <form class="form-login" method="POST" action="login.php">
         <h3 class="fw-normal text-center mb-2">MASUK AKUN</h3>
         <div class="form-floating mb-2">
             <input
                 type="email"
+                name="email"
                 class="form-control"
                 placeholder="E-mail"
                 required>
@@ -36,17 +37,18 @@
         <div class="form-floating mb-2">
             <input
                 type="password"
+                name="password"
                 class="form-control"
                 placeholder="Password"
                 required>
             <label for="password">Password</label>
         </div>
 
-        <a href="dashboard.html" class="btn btn-primary w-100 mb-2">
+        <button type="submit" class="btn btn-primary w-100 mb-2">
             Masuk
-        </a>
+</button>
 
-        <p> Tidak punya akun? <a href="daftar.html">Daftar</a></p>
+        <p> Tidak punya akun? <a href="daftar.php">Daftar</a></p>
     </form>
     </div>
 </body>

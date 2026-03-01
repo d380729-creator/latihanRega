@@ -1,3 +1,7 @@
+<?php
+include '../koneksi.php';
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,7 +11,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="font/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../font/css/font-awesome.css">
     <title>Hello, world!</title>
   </head>
   <body>
@@ -26,15 +30,15 @@
   <div class="col-md-2 bg-dark mt-2 pr-3 pt-4">
     <ul class="nav flex-column ml-3 mb5">
   <li class="nav-item">
-    <a class="nav-link active text-white" href="#"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
+    <a class="nav-link active text-white" href="dashboard.php"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
     <hr class="bg-secondary">
   </li>
   <li class="nav-item">
-    <a class="nav-link text-white" href="data_buku.html"><i class="fa fa-book" aria-hidden="true"></i> Data Buku</a>
+    <a class="nav-link text-white" href="kelola_buku.php"><i class="fa fa-book" aria-hidden="true"></i> Kelola Buku</a>
     <hr class="bg-secondary"> 
   </li>
   <li class="nav-item">
-    <a class="nav-link text-white" href="#"><i class="fa fa-users" aria-hidden="true"></i> Data Anggota</a>
+    <a class="nav-link text-white" href="#"><i class="fa fa-users" aria-hidden="true"></i> Kelola Anggota</a>
     <hr class="bg-secondary">
   </li>
   <li class="nav-item">
@@ -44,36 +48,50 @@
 </ul>
   </div>
   <div class="col-md-10 p-5 pt-2">
-    <h3><i class="fa fa-tachometer mr-2" aria-hidden="true"></i> Dashboard</h3><hr>
+    <h3><i class="fa fa-users" aria-hidden="true"></i> Data Anggota</h3><hr>
+    <a href="tambah_buku.php" class="btn btn-primary mb-3">
+  <i class="fa fa-plus-square mr-2"></i> Tambah Buku
+</a>
+      <table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">id anggota</th>
+      <th scope="col">nama_anggota</th>
+      <th scope="col">nisn</th>
+      <th scope="col">alamat</th>
+      <th scope="col">no telepon</th>
+      <th scope="col">aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+<?php
+$no = 1;
+$query = mysqli_query($connection, "SELECT * FROM users WHERE role='user'");
 
-   <div class="row text-white">
-  <div class="card bg-info ml-5" style="width: 18rem;">
-    <div class="card-body">     
-      <div class="card-body-icon">
-        <i class="fa fa-users mr-2"></i>
-      </div>
-      <h5 class="card-title">JUMLAH Anggota</h5>
-      <div class="display-4">10</div>
-      <a href="#"><p class="card-text text-white">Lihat Detail<i class="fa fa-angle-double-right ml-2"></i>
-        </p>
-      </a>
+while ($row = mysqli_fetch_assoc($query)) {
+?>
+<tr>
+  <td><?= $no++ ?></td>
+  <td><?= $row['nama'] ?></td>
+  <td><?= $row['nis'] ?></td>
+  <td><?= $row['alamat'] ?></td>
+  <td><?= $row['no_hp'] ?></td>
+  <td class="text-center">
+    <a href="edit_anggota.php?id=<?= $row['id_user'] ?>" class="btn btn-sm btn-success">
+      Edit
+    </a>
+    <a href="hapus_anggota.php?id=<?= $row['id_user'] ?>" 
+       class="btn btn-sm btn-danger"
+       onclick="return confirm('Yakin hapus anggota ini?')">
+      Hapus
+    </a>
+  </td>
+</tr>
+<?php } ?>
+</tbody>
 
-    </div>
-  </div>
 
-  <div class="card bg-danger ml-5" style="width: 18rem;">
-    <div class="card-body">     
-      <div class="card-body-icon">
-        <i class="fa fa-book mr-2"></i>
-      </div>
-      <h5 class="card-title">JUMLAH Buku</h5>
-      <div class="display-4">10</div>
-      <a href="#"><p class="card-text text-white">Lihat Detail<i class="fa fa-angle-double-right ml-2"></i>
-        </p>
-      </a>
-
-    </div>
-  </div>
+</table>
 
 </div>
 

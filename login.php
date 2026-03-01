@@ -1,35 +1,28 @@
 <?php
 session_start();
+include 'koneksi.php';
 
-// Koneksi database
-$host="localhost"; $user="root"; $pass=""; $db="latihan_login";
-$koneksi=mysqli_connect($host,$user,$pass,$db);
-if(!$koneksi) die("Koneksi gagal: ".mysqli_connect_error());
+$email = $_POST['email'];
+$password = $_POST['password'];
 
-if($_SERVER['REQUEST_METHOD']=='POST'){
-    $email=mysqli_real_escape_string($koneksi,$_POST['email']);
-    $password=mysqli_real_escape_string($koneksi,$_POST['password']);
+// Ambil user berdasarkan email
+$query = mysqli_query($connection, "SELECT * FROM users WHERE email='$email'");
+$data  = mysqli_fetch_assoc($query);
 
-    // Admin hardcode
-    if($email=="admin@example.com" && $password=="admin123"){
-        $_SESSION['email']=$email;
-        $_SESSION['role']="admin";
-        header("Location: dashboard_admin.php");
-        exit;
-    }
+if ($data && password_verify($password, $data['password'])) {
+    $_SESSION['login'] = true;
+    $_SESSION['id']    = $data['id'];
+    $_SESSION['nama']  = $data['nama'];
+    $_SESSION['role']  = $data['role'];
 
-    // User database
-    $query="SELECT * FROM users WHERE email='$email' AND password='$password'";
-    $result=mysqli_query($koneksi,$query);
-    if(mysqli_num_rows($result)==1){
-        $data=mysqli_fetch_assoc($result);
-        $_SESSION['email']=$data['email'];
-        $_SESSION['role']="user";
-        header("Location: dashboard_user.php");
-        exit;
+    // Redirect berdasarkan role
+    if ($data['role'] == 'admin') {
+        header("Location: admin/dashboard.php");
     } else {
-        echo "<script>alert('Email atau password salah'); window.location='index.php';</script>";
-        exit;
+        header("Location: user/dashboard.php");
     }
+    exit;
+} else {
+    echo "Login gagal! Email atau password salah.";
 }
 ?>
